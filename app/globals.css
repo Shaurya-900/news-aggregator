@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+/*
+ * E-Cell design tokens (Tailwind v4 theme).
+ * `--color-royal*` generates utilities like bg-royal / text-royal / border-royal.
+ */
+@theme {
+  --color-royal: #4267b2;
+  --color-royal-dark: #375492;
+  --color-royal-soft: #eef2fb;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+
+  /* Soft, diffused premium shadows */
+  --shadow-fluent: 0 8px 30px rgb(0 0 0 / 0.04);
+  --shadow-fluent-lg: 0 18px 40px rgb(0 0 0 / 0.08);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Horizontal scroll containers (filter carousel) without a visible scrollbar */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
