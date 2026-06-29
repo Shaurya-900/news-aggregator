@@ -3,10 +3,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { GlassHeader } from "@/components/GlassHeader";
-import { FilterCarousel } from "@/components/FilterCarousel";
 import { FeedLayout } from "@/components/FeedLayout";
 import { LoadingScreen } from "@/components/LoadingScreen";
-import { CATEGORIES, type Article, type Filter } from "@/lib/types";
+import { type Article, type Filter } from "@/lib/types";
+
 
 export default function Home() {
   const [articles, setArticles] = useState<Article[]>([]);
@@ -26,7 +26,6 @@ export default function Home() {
       } catch (error) {
         console.error("Failed to load news:", error);
       } finally {
-        // Brief hold so the logo splash reads as intentional, not a flicker.
         if (!cancelled) setTimeout(() => setLoading(false), 600);
       }
     }
@@ -37,41 +36,50 @@ export default function Home() {
     };
   }, []);
 
-  // Frontend filtering: narrow by category, then by the search query (matched
-  // against title, summary, and source).
   const filteredArticles = useMemo(() => {
     const byCategory =
       active === "All"
         ? articles
-        : articles.filter((article) => article.category === active);
+        : articles.filter((a) => a.category === active);
 
     const q = query.trim().toLowerCase();
     if (!q) return byCategory;
 
     return byCategory.filter(
-      (article) =>
-        article.title.toLowerCase().includes(q) ||
-        article.summary.toLowerCase().includes(q) ||
-        article.source.toLowerCase().includes(q),
+      (a) =>
+        a.title.toLowerCase().includes(q) ||
+        a.summary.toLowerCase().includes(q) ||
+        a.source.toLowerCase().includes(q),
     );
   }, [active, articles, query]);
 
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100vh",
+        overflow: "hidden",
+      }}
+    >
       <AnimatePresence>
         {loading && <LoadingScreen key="loading-screen" />}
       </AnimatePresence>
 
-      <GlassHeader query={query} onQueryChange={setQuery} />
-      <FilterCarousel
-        categories={CATEGORIES}
-        active={active}
-        onChange={setActive}
+      <GlassHeader
+        query={query}
+        onQueryChange={setQuery}
+        activeCategory={active}
+        onCategoryChange={(cat) => setActive(cat as Filter)}
       />
 
-      <main>
+      <main
+        style={{ flex: 1, overflowY: "auto", minWidth: 0 }}
+        className="mx-auto w-full max-w-[1500px] px-3 sm:px-6"
+      >
         <FeedLayout articles={filteredArticles} />
       </main>
-    </>
+      
+    </div>
   );
 }
