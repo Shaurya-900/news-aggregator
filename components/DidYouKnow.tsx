@@ -38,10 +38,18 @@ export function DidYouKnowStrip() {
   const [facts, setFacts] = useState<string[]>([]);
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [isTouch, setIsTouch] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     getSharedFacts().then((picked) => setFacts(picked));
+  }, []);
+
+  useEffect(() => {
+    // Detect touch/no-hover devices once on mount
+    const touchCapable =
+      window.matchMedia("(hover: none)").matches || "ontouchstart" in window;
+    setIsTouch(touchCapable);
   }, []);
 
   // 3-second auto-advance matching the structural logic of FeaturedTextPanel
@@ -59,12 +67,23 @@ export function DidYouKnowStrip() {
 
   const fact = facts[current];
 
+  // On touch devices: tap toggles pause/resume, no hover handlers.
+  // On non-touch (laptop/desktop): hover pauses, leaving resumes, click does nothing extra.
+  const hoverHandlers = isTouch
+    ? {}
+    : {
+        onMouseEnter: () => setPaused(true),
+        onMouseLeave: () => setPaused(false),
+      };
+
+  const clickHandler = isTouch ? { onClick: () => setPaused((p) => !p) } : {};
+
   return (
     <div
       className="relative border border-black overflow-hidden flex flex-col group"
       style={{ background: "#3b2a1a", minHeight: "200px" }}
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
+      {...hoverHandlers}
+      {...clickHandler}
     >
       {/* top label bar */}
       <div
@@ -79,7 +98,10 @@ export function DidYouKnowStrip() {
           {facts.slice(0, 8).map((_, i) => (
             <button
               key={i}
-              onClick={() => setCurrent(i)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrent(i);
+              }}
               className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
                 i === current
                   ? "bg-white/90 scale-125"

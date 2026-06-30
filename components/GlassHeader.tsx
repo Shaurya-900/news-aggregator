@@ -25,7 +25,7 @@ export function GlassHeader({
       className="sticky top-0 z-50"
     >
       <link
-        href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&family=Manrope:wght@400;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
         rel="stylesheet"
       />
 
@@ -37,29 +37,39 @@ export function GlassHeader({
         className="mx-auto max-w-[1500px] flex justify-between items-center px-6"
         style={{ padding: "6px 1.5rem" }}
       >
-        <ECellLogo className="h-7 w-auto opacity-80" />
+        <div
+          className="flex items-center hidden sm:flex"
+          style={{ width: "220px" }}
+        >
+          <ECellLogo className="h-7 w-auto opacity-80" />
+        </div>
+
         <span
           style={{
-            fontFamily: "'IM Fell English', serif",
+            fontFamily: "'Playfair Display', serif",
             fontSize: "10px",
             letterSpacing: "0.18em",
             textTransform: "uppercase",
             color: "#6b5a3e",
-            fontStyle: "italic",
+            flex: 1,
+            textAlign: "center",
           }}
           className="hidden sm:block"
         >
           Shiv Nadar University · E-Cell
         </span>
+
         <span
           suppressHydrationWarning
           style={{
-            fontFamily: "'IM Fell English', serif",
+            fontFamily: "'Playfair Display', serif",
             fontSize: "10px",
             letterSpacing: "0.12em",
             color: "#6b5a3e",
-            fontStyle: "italic",
+            width: "220px",
+            textAlign: "right",
           }}
+          className="hidden sm:block"
         >
           {new Date().toLocaleDateString("en-IN", {
             weekday: "long",
@@ -68,6 +78,26 @@ export function GlassHeader({
             day: "numeric",
           })}
         </span>
+
+        {/* Mobile-only fallback: logo + date inline, no eyebrow text */}
+        <div className="flex sm:hidden items-center justify-between w-full">
+          <ECellLogo className="h-7 w-auto opacity-80" />
+          <span
+            suppressHydrationWarning
+            style={{
+              fontFamily: "'Playfair Display', serif",
+              fontSize: "10px",
+              letterSpacing: "0.12em",
+              color: "#6b5a3e",
+            }}
+          >
+            {new Date().toLocaleDateString("en-IN", {
+              weekday: "short",
+              month: "short",
+              day: "numeric",
+            })}
+          </span>
+        </div>
       </div>
 
       {/* Thin rule */}

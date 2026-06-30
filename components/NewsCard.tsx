@@ -6,6 +6,7 @@ import type { Article } from "@/lib/types";
 interface NewsCardProps {
   article: Article;
   index: number;
+  featured?: boolean;
 }
 
 function formatDate(iso: string): string {
@@ -18,7 +19,15 @@ function formatDate(iso: string): string {
   });
 }
 
-export function NewsCard({ article, index }: NewsCardProps) {
+export function NewsCard({ article, index, featured = false }: NewsCardProps) {
+  const headlineClass = featured
+    ? "text-2xl sm:text-3xl leading-[1.1] group-hover:text-[#c9a87c] line-clamp-3"
+    : "text-base font-bold leading-snug group-hover:text-[#c9a87c] line-clamp-2";
+
+  const summaryClass = featured
+    ? "text-sm leading-relaxed line-clamp-3"
+    : "text-xs leading-relaxed line-clamp-2";
+
   return (
     <motion.article
       layout
@@ -42,6 +51,7 @@ export function NewsCard({ article, index }: NewsCardProps) {
         rel="noopener noreferrer"
         style={{ display: "flex", flexDirection: "column", gap: "0.55rem" }}
       >
+    
         {article.image && (
           <div
             style={{
@@ -66,47 +76,32 @@ export function NewsCard({ article, index }: NewsCardProps) {
           </div>
         )}
 
-        {/* Meta */}
-        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+        <div
+          style={{ display: "flex", alignItems: "center", gap: "6px" }}
+          className="text-[10px] tracking-[0.15em] uppercase"
+        >
           <span
             style={{
               fontFamily: "'IM Fell English', serif",
-              fontSize: "10px",
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
               color: "#c9a87c",
               fontWeight: 700,
             }}
           >
             {article.source}
           </span>
-          <span style={{ color: "#a8836a", fontSize: "10px" }}>·</span>
+          <span style={{ color: "#a8836a" }}>·</span>
           <time
             dateTime={article.published_date}
-            style={{
-              fontFamily: "'IM Fell English', serif",
-              fontSize: "10px",
-              color: "#6b5a3e",
-              fontStyle: "italic",
-            }}
+            style={{ fontFamily: "'IM Fell English', serif", color: "#6b5a3e" }}
           >
             {formatDate(article.published_date)}
           </time>
-          <span style={{ color: "#a8836a", fontSize: "10px" }}>·</span>
-          <span
-            style={{
-              fontFamily: "'IM Fell English', serif",
-              fontSize: "10px",
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              color: "#6b5a3e",
-            }}
-          >
+          <span style={{ color: "#a8836a" }}>·</span>
+          <span style={{ fontFamily: "'IM Fell English', serif", color: "#6b5a3e" }}>
             {article.category}
           </span>
         </div>
 
-        {/* Headline */}
         <h3
           onMouseEnter={(e) => {
             e.currentTarget.style.textDecoration = "underline";
@@ -115,48 +110,32 @@ export function NewsCard({ article, index }: NewsCardProps) {
             e.currentTarget.style.textDecoration = "none";
           }}
           style={{
-            fontFamily: "'Playfair Display', serif",
-            fontSize: "1.05rem",
-            fontWeight: 700,
-            lineHeight: 1.35,
+            fontFamily: "'Manrope', sans-serif",
             color: "#1a1208",
             margin: 0,
+            fontWeight: featured ? 800 : 700,
+            letterSpacing: featured ? "-0.01em" : "normal",
             transition: "color 0.2s",
           }}
-          className="group-hover:text-[#c9a87c] line-clamp-2"
+          className={headlineClass}
         >
           {article.title}
         </h3>
 
-        {/* Summary */}
-        <p
-          style={{
-            fontFamily: "'IM Fell English', serif",
-            fontSize: "12.5px",
-            lineHeight: 1.65,
-            color: "#4a3f2f",
-            margin: 0,
-            fontStyle: "italic",
-          }}
-          className="line-clamp-2"
-        >
+        <p style={{ color: "#4a3f2f", margin: 0 }} className={summaryClass}>
           {article.summary}
         </p>
 
-        {/* Read link */}
         <span
           style={{
             fontFamily: "'IM Fell English', serif",
-            fontSize: "10px",
-            letterSpacing: "0.14em",
-            textTransform: "uppercase",
             color: "#a8836a",
             display: "flex",
             alignItems: "center",
             gap: "4px",
             transition: "color 0.2s",
           }}
-          className="group-hover:text-[#1a1208]"
+          className="text-[10px] uppercase tracking-widest group-hover:text-[#1a1208]"
         >
           Read full story
           <span
