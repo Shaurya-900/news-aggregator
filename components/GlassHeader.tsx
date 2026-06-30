@@ -13,6 +13,13 @@ interface GlassHeaderProps {
 
 const SECTIONS = ["All", "Funding", "AI", "Web3"];
 
+// One shared container for the header CONTENT rows (logo, masthead, nav). It has
+// a small side inset (px-5 → 1.25rem) so text doesn't feel tight against the
+// screen edge. The horizontal rules are kept separate and full-bleed, so the
+// LINES still run edge-to-edge while the content (logo etc.) is inset to line up
+// with the "More Stories" text (whose aside also pads its text by 1.25rem).
+const ROW = "w-full px-5";
+
 export function GlassHeader({
   query,
   onQueryChange,
@@ -29,17 +36,26 @@ export function GlassHeader({
         rel="stylesheet"
       />
 
-      {/* Top rule — double */}
-      <div style={{ borderTop: "3px double #1a1208", margin: "0 1.5rem" }} />
-
-      {/* Meta bar */}
+      {/* Meta bar — a 3-column grid (1fr | auto | 1fr) so the middle text is
+          truly centered on the page, independent of the logo/date widths.
+          Explicit column placement keeps the logo left and date right even on
+          mobile, where the centered text is hidden. */}
       <div
-        className="mx-auto max-w-[1500px] flex justify-between items-center px-6"
-        style={{ padding: "6px 1.5rem" }}
+        className={ROW}
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr auto 1fr",
+          alignItems: "center",
+          paddingBlock: "6px",
+        }}
       >
-        <ECellLogo className="h-7 w-auto opacity-80" />
+        <div style={{ gridColumn: 1, justifySelf: "start" }}>
+          <ECellLogo className="h-7 w-auto opacity-80" />
+        </div>
         <span
           style={{
+            gridColumn: 2,
+            justifySelf: "center",
             fontFamily: "'IM Fell English', serif",
             fontSize: "10px",
             letterSpacing: "0.18em",
@@ -54,6 +70,8 @@ export function GlassHeader({
         <span
           suppressHydrationWarning
           style={{
+            gridColumn: 3,
+            justifySelf: "end",
             fontFamily: "'IM Fell English', serif",
             fontSize: "10px",
             letterSpacing: "0.12em",
@@ -70,13 +88,15 @@ export function GlassHeader({
         </span>
       </div>
 
-      {/* Thin rule */}
-      <div style={{ borderTop: "1px solid #1a1208", margin: "0 1.5rem" }} />
+      {/* Thin rule (full-bleed) */}
+      <div className="w-full">
+        <div style={{ borderTop: "1px solid #1a1208" }} />
+      </div>
 
       {/* Masthead + search */}
       <div
-        className="mx-auto max-w-[1500px] flex items-center justify-between px-6"
-        style={{ padding: "10px 1.5rem" }}
+        className={`${ROW} flex items-center justify-between`}
+        style={{ paddingBlock: "10px" }}
       >
         <div className="hidden sm:block" style={{ width: "220px" }} />
 
@@ -169,7 +189,7 @@ export function GlassHeader({
       </div>
 
       {/* Mobile search bar */}
-      <div id="mobile-search" className="hidden sm:hidden px-6 pb-2">
+      <div id="mobile-search" className={`${ROW} hidden sm:hidden pb-2`}>
         <div
           style={{
             display: "flex",
@@ -199,12 +219,15 @@ export function GlassHeader({
         </div>
       </div>
 
-      {/* Thin rule */}
-      <div style={{ borderTop: "1px solid #1a1208", margin: "0 1.5rem" }} />
+      {/* Thin rule (full-bleed) */}
+      <div className="w-full">
+        <div style={{ borderTop: "1px solid #1a1208" }} />
+      </div>
 
       {/* Section nav */}
       <nav
-        style={{ display: "flex", justifyContent: "center", padding: "5px 0" }}
+        className={ROW}
+        style={{ display: "flex", justifyContent: "center", paddingBlock: "5px" }}
       >
         {SECTIONS.map((section, i) => (
           <button
@@ -240,8 +263,10 @@ export function GlassHeader({
         ))}
       </nav>
 
-      {/* Bottom double rule */}
-      <div style={{ borderTop: "3px double #1a1208", margin: "0 1.5rem" }} />
+      {/* Bottom double rule (full-bleed) */}
+      <div className="w-full">
+        <div style={{ borderTop: "3px double #1a1208" }} />
+      </div>
     </header>
   );
 }

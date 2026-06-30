@@ -75,7 +75,7 @@ export default function Home() {
 
       <main
         style={{ flex: 1, overflowY: "auto", minWidth: 0 }}
-        className="mx-auto w-full max-w-[1500px] px-3 sm:px-6"
+        className="w-full"
       >
         <FeedLayout articles={filteredArticles} />
       </main>
