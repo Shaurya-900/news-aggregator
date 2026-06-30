@@ -40,25 +40,36 @@ export function NewsCard({ article, index }: NewsCardProps) {
         href={article.url}
         target="_blank"
         rel="noopener noreferrer"
+        // px-4 on mobile gives the text breathing room from the screen edge;
+        // sm:px-0 removes it on desktop, where the column layout already spaces
+        // things out. The image cancels this padding (below) to stay full-bleed.
+        className="px-4 sm:px-0"
         style={{ display: "flex", flexDirection: "column", gap: "0.55rem" }}
       >
         {article.image && (
           <div
+            // -mx-4 on mobile bleeds the image back out to the full screen width
+            // (cancelling the <a>'s px-4); sm:mx-0 leaves desktop untouched.
+            className="-mx-4 sm:mx-0"
             style={{
-              width: "100%",
-              aspectRatio: "3/2",
+              // Most RSS thumbnails arrive at ~16:9, so matching the box to that
+              // ratio means `cover` barely crops them — far less "cut off" than
+              // the old 3:2 box, which lopped the sides off every wide image.
+              // width is auto (not 100%) so the negative margin can expand it.
+              aspectRatio: "16/9",
               overflow: "hidden",
               backgroundColor: "#e8e0d0",
             }}
           >
             <img
               src={article.image}
-              alt=""
+              alt={article.title}
               loading="lazy"
               style={{
                 width: "100%",
                 height: "100%",
                 objectFit: "cover",
+                objectPosition: "center",
                 transition: "transform 0.5s ease",
               }}
               className="group-hover:scale-[1.03]"

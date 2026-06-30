@@ -68,7 +68,7 @@ export function DidYouKnowStrip() {
     >
       {/* top label bar */}
       <div
-        className="flex items-center justify-between px-4 py-2 border-b border-white/20 w-100"
+        className="flex items-center justify-between px-4 py-2 border-b border-white/20"
         style={{ fontFamily: "'IM Fell English', serif" }}
       >
         <span className="text-[10px] tracking-[0.2em] uppercase text-white/60">

@@ -57,7 +57,9 @@ export function FeedLayout({ articles }: FeedLayoutProps) {
   const rightCards = remainingStories.filter((_, i) => i % 2 === 1);
 
   return (
-    <div style={{ padding: "0 1.5rem 2rem" }}>
+    // No side padding here — the page's <main> owns the left/right gutter so the
+    // feed lines up with the header. Only keep bottom spacing.
+    <div style={{ padding: "0 0 2rem" }}>
       {/* Mobile Feed Layout */}
       <div
         className="flex flex-col gap-5 sm:hidden"
@@ -94,7 +96,11 @@ export function FeedLayout({ articles }: FeedLayoutProps) {
           style={{
             width: "24%",
             flexShrink: 0,
-            padding: "1.25rem 1.25rem 1.25rem 1rem",
+            // The beige background stays flush to the screen edge (the aside
+            // itself starts at x=0), but the 1.25rem left padding insets the
+            // TEXT so it isn't tight against the edge — and lines up with the
+            // logo, which has the same 1.25rem inset in the header.
+            padding: "1.25rem",
             borderRight: "3px double rgba(26,18,8,0.25)",
             backgroundColor: "#f5f0e8",
           }}

@@ -18,8 +18,15 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className="min-h-screen bg-[#faf8f4] font-sans text-slate-900 antialiased">
+    // suppressHydrationWarning: some browser extensions inject attributes onto
+    // <html>/<body> before React hydrates (e.g. data-* channel ids). That's
+    // outside our control and harmless, so we tell React not to warn about
+    // attribute mismatches on these two elements.
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <body
+        suppressHydrationWarning
+        className="min-h-screen bg-[#faf8f4] font-sans text-slate-900 antialiased"
+      >
         {children}
       </body>
     </html>
