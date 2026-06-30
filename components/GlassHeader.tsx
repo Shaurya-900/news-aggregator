@@ -1,46 +1,130 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Search, X } from "lucide-react";
 import { ECellLogo } from "./ECellLogo";
+import { Search, X } from "lucide-react";
 
 interface GlassHeaderProps {
   query: string;
   onQueryChange: (value: string) => void;
+  activeCategory?: string;
+  onCategoryChange?: (category: string) => void;
 }
 
-/**
- * Sticky, glassmorphic top navigation. Royal-blue E-Cell mark on the left; an
- * always-visible search field on the right that filters the feed as you type.
- *
- * The input is `type="text"` (not `"search"`) so the browser's native clear
- * button doesn't show — we render a single custom clear "×" that appears only
- * when there's text.
- */
-export function GlassHeader({ query, onQueryChange }: GlassHeaderProps) {
-  return (
-    <header className="sticky top-0 z-50 border-b border-white/20 bg-white/70 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
-        <div className="flex items-center gap-3">
-          <ECellLogo className="h-9 w-9 shrink-0" />
-          <div className="leading-tight">
-            <p className="text-sm font-semibold text-slate-900">E-Cell News</p>
-            <p className="text-[11px] text-slate-500">Shiv Nadar University</p>
-          </div>
-        </div>
+const SECTIONS = ["All", "Funding", "AI", "Web3"];
 
-        <div className="flex w-40 items-center gap-2 rounded-full border border-white/40 bg-white/70 px-3 shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-xl transition-colors focus-within:bg-white sm:w-60 lg:w-72">
-          <Search className="h-4 w-4 shrink-0 text-slate-400" />
+export function GlassHeader({
+  query,
+  onQueryChange,
+  activeCategory = "All",
+  onCategoryChange,
+}: GlassHeaderProps) {
+  return (
+    <header
+      style={{ backgroundColor: "#faf8f3", borderBottom: "none" }}
+      className="sticky top-0 z-50"
+    >
+      <link
+        href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet"
+      />
+
+      {/* Top rule — double */}
+      <div style={{ borderTop: "3px double #1a1208", margin: "0 1.5rem" }} />
+
+      {/* Meta bar */}
+      <div
+        className="mx-auto max-w-[1500px] flex justify-between items-center px-6"
+        style={{ padding: "6px 1.5rem" }}
+      >
+        <ECellLogo className="h-7 w-auto opacity-80" />
+        <span
+          style={{
+            fontFamily: "'IM Fell English', serif",
+            fontSize: "10px",
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+            color: "#6b5a3e",
+            fontStyle: "italic",
+          }}
+          className="hidden sm:block"
+        >
+          Shiv Nadar University · E-Cell
+        </span>
+        <span
+          suppressHydrationWarning
+          style={{
+            fontFamily: "'IM Fell English', serif",
+            fontSize: "10px",
+            letterSpacing: "0.12em",
+            color: "#6b5a3e",
+            fontStyle: "italic",
+          }}
+        >
+          {new Date().toLocaleDateString("en-IN", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </span>
+      </div>
+
+      {/* Thin rule */}
+      <div style={{ borderTop: "1px solid #1a1208", margin: "0 1.5rem" }} />
+
+      {/* Masthead + search */}
+      <div
+        className="mx-auto max-w-[1500px] flex items-center justify-between px-6"
+        style={{ padding: "10px 1.5rem" }}
+      >
+        <div className="hidden sm:block" style={{ width: "220px" }} />
+
+        <h1
+          style={{
+            fontFamily: "'UnifrakturMaguntia', cursive",
+            fontSize: "clamp(2rem, 4vw, 3.4rem)",
+            color: "#1a1208",
+            letterSpacing: "0.02em",
+            lineHeight: 1,
+            textAlign: "center",
+            flex: 1,
+          }}
+        >
+          E-Cell Newsletter
+        </h1>
+
+        {/* Search */}
+        <div
+          className="hidden sm:flex items-center gap-2"
+          style={{
+            width: "220px",
+            border: "1px solid #c9a87c",
+            borderRadius: "2px",
+            padding: "5px 12px",
+            backgroundColor: "#faf8f3",
+          }}
+        >
+          <Search
+            style={{ width: 14, height: 14, color: "#a8836a", flexShrink: 0 }}
+          />
           <input
             type="text"
             value={query}
-            onChange={(event) => onQueryChange(event.target.value)}
-            onKeyDown={(event) => {
-              if (event.key === "Escape") onQueryChange("");
+            onChange={(e) => onQueryChange(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Escape") onQueryChange("");
             }}
             placeholder="Search stories…"
-            aria-label="Search stories"
-            className="h-10 w-full min-w-0 bg-transparent text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none"
+            style={{
+              background: "transparent",
+              border: "none",
+              outline: "none",
+              fontFamily: "'IM Fell English', serif",
+              fontSize: "12px",
+              color: "#1a1208",
+              width: "100%",
+            }}
           />
           <AnimatePresence initial={false}>
             {query && (
@@ -48,19 +132,116 @@ export function GlassHeader({ query, onQueryChange }: GlassHeaderProps) {
                 key="clear"
                 type="button"
                 onClick={() => onQueryChange("")}
-                aria-label="Clear search"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.15 }}
-                className="shrink-0 text-slate-400 transition-colors hover:text-slate-600"
+                style={{
+                  color: "#a8836a",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                }}
               >
-                <X className="h-4 w-4" />
+                <X style={{ width: 13, height: 13 }} />
               </motion.button>
             )}
           </AnimatePresence>
         </div>
+
+        {/* Mobile search icon */}
+        <button
+          onClick={() => {
+            const el = document.getElementById("mobile-search");
+            el?.classList.toggle("hidden");
+            el?.querySelector("input")?.focus();
+          }}
+          className="sm:hidden"
+          style={{
+            color: "#6b5a3e",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          <Search style={{ width: 18, height: 18 }} />
+        </button>
       </div>
+
+      {/* Mobile search bar */}
+      <div id="mobile-search" className="hidden sm:hidden px-6 pb-2">
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            border: "1px solid #c9a87c",
+            borderRadius: 2,
+            padding: "5px 12px",
+          }}
+        >
+          <Search style={{ width: 14, height: 14, color: "#a8836a" }} />
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => onQueryChange(e.target.value)}
+            placeholder="Search stories…"
+            style={{
+              background: "transparent",
+              border: "none",
+              outline: "none",
+              fontFamily: "'IM Fell English', serif",
+              fontSize: "12px",
+              color: "#1a1208",
+              width: "100%",
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Thin rule */}
+      <div style={{ borderTop: "1px solid #1a1208", margin: "0 1.5rem" }} />
+
+      {/* Section nav */}
+      <nav
+        style={{ display: "flex", justifyContent: "center", padding: "5px 0" }}
+      >
+        {SECTIONS.map((section, i) => (
+          <button
+            key={section}
+            onClick={() => onCategoryChange?.(section)}
+            style={{
+              fontFamily: "'IM Fell English', serif",
+              fontSize: "11px",
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              color: activeCategory === section ? "#1a1208" : "#6b5a3e",
+              fontWeight: activeCategory === section ? 700 : 400,
+              textDecoration: activeCategory === section ? "underline" : "none",
+              textUnderlineOffset: "3px",
+              padding: "2px 18px",
+              borderLeft: i === 0 ? "1px solid #1a1208" : "none",
+              borderRight: "1px solid #1a1208",
+              background: "none",
+              cursor: "pointer",
+              transition: "color 0.2s",
+            }}
+            onMouseEnter={(e) => {
+              if (activeCategory !== section)
+                (e.target as HTMLElement).style.color = "#1a1208";
+            }}
+            onMouseLeave={(e) => {
+              if (activeCategory !== section)
+                (e.target as HTMLElement).style.color = "#6b5a3e";
+            }}
+          >
+            {section}
+          </button>
+        ))}
+      </nav>
+
+      {/* Bottom double rule */}
+      <div style={{ borderTop: "3px double #1a1208", margin: "0 1.5rem" }} />
     </header>
   );
 }
