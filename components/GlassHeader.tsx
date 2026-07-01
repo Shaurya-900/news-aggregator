@@ -21,7 +21,7 @@ export function GlassHeader({
 }: GlassHeaderProps) {
   return (
     <header
-      style={{ backgroundColor: "#faf8f3", borderBottom: "none" }}
+      style={{ backgroundColor: "#faf8f4", borderBottom: "none" }}
       className="sticky top-0 z-50"
     >
       <link
@@ -30,11 +30,11 @@ export function GlassHeader({
       />
 
       {/* Top rule — double */}
-      <div style={{ borderTop: "3px double #1a1208", margin: "0 1.5rem" }} />
+      <div style={{ borderTop: "3px double #3D2412", margin: "0" }} />
 
       {/* Meta bar */}
       <div
-        className="mx-auto max-w-[1500px] flex justify-between items-center px-6"
+        className="w-full flex justify-between items-center px-6"
         style={{ padding: "6px 1.5rem" }}
       >
         <div
@@ -50,7 +50,7 @@ export function GlassHeader({
             fontSize: "10px",
             letterSpacing: "0.18em",
             textTransform: "uppercase",
-            color: "#6b5a3e",
+            color: "rgba(61, 36, 18, 0.6)",
             flex: 1,
             textAlign: "center",
           }}
@@ -65,7 +65,7 @@ export function GlassHeader({
             fontFamily: "'Playfair Display', serif",
             fontSize: "10px",
             letterSpacing: "0.12em",
-            color: "#6b5a3e",
+            color: "rgba(61, 36, 18, 0.6)",
             width: "220px",
             textAlign: "right",
           }}
@@ -88,7 +88,7 @@ export function GlassHeader({
               fontFamily: "'Playfair Display', serif",
               fontSize: "10px",
               letterSpacing: "0.12em",
-              color: "#6b5a3e",
+              color: "rgba(61, 36, 18, 0.6)",
             }}
           >
             {new Date().toLocaleDateString("en-IN", {
@@ -101,11 +101,11 @@ export function GlassHeader({
       </div>
 
       {/* Thin rule */}
-      <div style={{ borderTop: "1px solid #1a1208", margin: "0 1.5rem" }} />
+      <div style={{ borderTop: "1px solid #3D2412", margin: "0" }} />
 
       {/* Masthead + search */}
       <div
-        className="mx-auto max-w-[1500px] flex items-center justify-between px-6"
+        className="w-full flex items-center justify-between px-6"
         style={{ padding: "10px 1.5rem" }}
       >
         <div className="hidden sm:block" style={{ width: "220px" }} />
@@ -114,7 +114,7 @@ export function GlassHeader({
           style={{
             fontFamily: "'UnifrakturMaguntia', cursive",
             fontSize: "clamp(2rem, 4vw, 3.4rem)",
-            color: "#1a1208",
+            color: "#000000",
             letterSpacing: "0.02em",
             lineHeight: 1,
             textAlign: "center",
@@ -126,17 +126,17 @@ export function GlassHeader({
 
         {/* Search */}
         <div
-          className="hidden sm:flex items-center gap-2"
+          className="hidden sm:flex items-center gap-2 hover:border-[#b8916a] focus-within:border-[#b8916a] focus-within:shadow-[0_4px_12px_rgba(184,145,106,0.15)] hover:shadow-[0_2px_6px_rgba(184,145,106,0.1)] focus-within:-translate-y-[1.5px] transition-all duration-200"
           style={{
             width: "220px",
-            border: "1px solid #c9a87c",
+            border: "1px solid rgba(184, 145, 106, 0.6)",
             borderRadius: "2px",
             padding: "5px 12px",
-            backgroundColor: "#faf8f3",
+            backgroundColor: "#faf8f4",
           }}
         >
           <Search
-            style={{ width: 14, height: 14, color: "#a8836a", flexShrink: 0 }}
+            style={{ width: 14, height: 14, color: "rgba(61, 36, 18, 0.6)", flexShrink: 0 }}
           />
           <input
             type="text"
@@ -152,7 +152,7 @@ export function GlassHeader({
               outline: "none",
               fontFamily: "'IM Fell English', serif",
               fontSize: "12px",
-              color: "#1a1208",
+              color: "#3D2412",
               width: "100%",
             }}
           />
@@ -167,7 +167,7 @@ export function GlassHeader({
                 exit={{ opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.15 }}
                 style={{
-                  color: "#a8836a",
+                  color: "#b8916a",
                   background: "none",
                   border: "none",
                   cursor: "pointer",
@@ -186,12 +186,10 @@ export function GlassHeader({
             el?.classList.toggle("hidden");
             el?.querySelector("input")?.focus();
           }}
-          className="sm:hidden"
+          className="sm:hidden text-[rgba(61,36,18,0.7)] hover:text-[#b8916a] transition-colors duration-200 cursor-pointer"
           style={{
-            color: "#6b5a3e",
             background: "none",
             border: "none",
-            cursor: "pointer",
           }}
         >
           <Search style={{ width: 18, height: 18 }} />
@@ -201,16 +199,17 @@ export function GlassHeader({
       {/* Mobile search bar */}
       <div id="mobile-search" className="hidden sm:hidden px-6 pb-2">
         <div
+          className="hover:border-[#b8916a] focus-within:border-[#b8916a] focus-within:shadow-[0_4px_12px_rgba(184,145,106,0.15)] hover:shadow-[0_2px_6px_rgba(184,145,106,0.1)] focus-within:-translate-y-[1.5px] transition-all duration-200"
           style={{
             display: "flex",
             alignItems: "center",
             gap: 8,
-            border: "1px solid #c9a87c",
+            border: "1px solid rgba(184, 145, 106, 0.6)",
             borderRadius: 2,
             padding: "5px 12px",
           }}
         >
-          <Search style={{ width: 14, height: 14, color: "#a8836a" }} />
+          <Search style={{ width: 14, height: 14, color: "rgba(61, 36, 18, 0.6)" }} />
           <input
             type="text"
             value={query}
@@ -222,7 +221,7 @@ export function GlassHeader({
               outline: "none",
               fontFamily: "'IM Fell English', serif",
               fontSize: "12px",
-              color: "#1a1208",
+              color: "#3D2412",
               width: "100%",
             }}
           />
@@ -230,7 +229,7 @@ export function GlassHeader({
       </div>
 
       {/* Thin rule */}
-      <div style={{ borderTop: "1px solid #1a1208", margin: "0 1.5rem" }} />
+      <div style={{ borderTop: "1px solid #3D2412", margin: "0" }} />
 
       {/* Section nav */}
       <nav
@@ -245,33 +244,33 @@ export function GlassHeader({
               fontSize: "11px",
               letterSpacing: "0.14em",
               textTransform: "uppercase",
-              color: activeCategory === section ? "#1a1208" : "#6b5a3e",
               fontWeight: activeCategory === section ? 700 : 400,
-              textDecoration: activeCategory === section ? "underline" : "none",
-              textUnderlineOffset: "3px",
               padding: "2px 18px",
-              borderLeft: i === 0 ? "1px solid #1a1208" : "none",
-              borderRight: "1px solid #1a1208",
+              borderLeft: i === 0 ? "1px solid #3D2412" : "none",
+              borderRight: "1px solid #3D2412",
               background: "none",
-              cursor: "pointer",
-              transition: "color 0.2s",
             }}
-            onMouseEnter={(e) => {
-              if (activeCategory !== section)
-                (e.target as HTMLElement).style.color = "#1a1208";
-            }}
-            onMouseLeave={(e) => {
-              if (activeCategory !== section)
-                (e.target as HTMLElement).style.color = "#6b5a3e";
-            }}
+            className={`group cursor-pointer transition-colors duration-200 ${
+              activeCategory === section ? "text-[#b8916a]" : "text-[rgba(61,36,18,0.7)] hover:text-[#b8916a]"
+            }`}
           >
-            {section}
+            <span
+              style={{
+                borderBottom: "1.5px solid",
+                borderColor: activeCategory === section ? "#b8916a" : "transparent",
+                paddingBottom: "2px",
+                transition: "border-color 0.2s ease-out",
+              }}
+              className="group-hover:border-[#b8916a]"
+            >
+              {section}
+            </span>
           </button>
         ))}
       </nav>
 
       {/* Bottom double rule */}
-      <div style={{ borderTop: "3px double #1a1208", margin: "0 1.5rem" }} />
+      <div style={{ borderTop: "3px double #3D2412", margin: "0" }} />
     </header>
   );
 }

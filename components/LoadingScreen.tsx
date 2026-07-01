@@ -11,7 +11,7 @@ import { ECellLogo } from "./ECellLogo";
 export function LoadingScreen() {
   return (
     <motion.div
-      className="fixed inset-0 z-[100] grid place-items-center bg-slate-50"
+      className="fixed inset-0 z-[100] grid place-items-center bg-[#faf8f4]"
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.45, ease: "easeInOut" }}
@@ -21,8 +21,11 @@ export function LoadingScreen() {
         animate={{ scale: [1, 1.08, 1], opacity: [0.65, 1, 0.65] }}
         transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
       >
-        <ECellLogo className="h-20 w-20 drop-shadow-[0_8px_30px_rgba(66,103,178,0.35)]" />
-        <p className="text-sm font-medium tracking-wide text-slate-400">
+        <ECellLogo className="h-20 w-20 drop-shadow-[0_8px_30px_rgba(184,145,106,0.2)]" />
+        <p
+          className="text-sm font-medium tracking-wide"
+          style={{ fontFamily: "'IM Fell English', serif", color: "rgba(61, 36, 18, 0.6)" }}
+        >
           Curating startup stories…
         </p>
       </motion.div>

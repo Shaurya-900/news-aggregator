@@ -22,7 +22,35 @@ function formatDate(iso: string): string {
 export function FeaturedTextPanel({ articles }: FeaturedTextPanelProps) {
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Minimum distance to trigger swipe (in px)
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    const itemsCount = articles.length;
+    if (isLeftSwipe) {
+      setCurrent((prev) => (prev + 1) % itemsCount);
+    } else if (isRightSwipe) {
+      setCurrent((prev) => (prev - 1 + itemsCount) % itemsCount);
+    }
+  };
 
   useEffect(() => {
     if (articles.length <= 1 || paused) return;
@@ -40,30 +68,31 @@ export function FeaturedTextPanel({ articles }: FeaturedTextPanelProps) {
 
   return (
     <div
-      className="relative border border-black overflow-hidden flex flex-col"
-      style={{ background: "#3b2a1a", minHeight: "200px" }}
+      className="relative border border-black overflow-hidden flex flex-col transition-shadow duration-300 hover:shadow-[0_12px_30px_rgba(61,36,18,0.3)]"
+      style={{ background: "#3D2412", minHeight: "200px" }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
     >
       {/* top label bar */}
       <div
-        className="flex items-center justify-between px-4 py-2 border-b border-white/20"
+        className="flex items-center justify-between px-6 py-3 border-b border-white/20"
         style={{ fontFamily: "'IM Fell English', serif" }}
       >
         <span className="text-[10px] tracking-[0.2em] uppercase text-white/60">
-          Editor's Picks{" "}
-          {paused && <span className="ml-2 text-white/30">— paused</span>}
+          Editor's Picks
         </span>
         <div className="flex gap-1.5">
           {articles.slice(0, 8).map((_, i) => (
             <button
               key={i}
               onClick={() => setCurrent(i)}
-              className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                i === current
-                  ? "bg-white/90 scale-125"
-                  : "bg-white/25 hover:bg-white/50"
-              }`}
+              className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${i === current
+                  ? "bg-[#b8916a] scale-125"
+                  : "bg-white/30 hover:bg-[#b8916a] hover:scale-120 cursor-pointer"
+                }`}
             />
           ))}
         </div>
@@ -83,10 +112,10 @@ export function FeaturedTextPanel({ articles }: FeaturedTextPanelProps) {
             transition: { duration: 0.35, ease: "easeOut" },
           }}
           exit={{ opacity: 0, y: -8, transition: { duration: 0.2 } }}
-          className="flex flex-col flex-1 px-4 py-3 group"
+          className="flex flex-col flex-1 px-6 py-4 group"
         >
           <div
-            className="text-[10px] tracking-[0.15em] uppercase text-white/45 mb-2"
+            className="text-[10px] tracking-[0.15em] uppercase text-white/60 mb-2"
             style={{ fontFamily: "'IM Fell English', serif" }}
           >
             {article.source} · {formatDate(article.published_date)} ·{" "}
@@ -94,18 +123,18 @@ export function FeaturedTextPanel({ articles }: FeaturedTextPanelProps) {
           </div>
 
           <h3
-            className="text-base font-bold leading-snug text-white/90 mb-2 group-hover:text-white transition-colors"
+            className="text-base font-bold leading-snug text-white mb-2 group-hover:text-[#b8916a] transition-colors"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
             {article.title}
           </h3>
 
-          <p className="text-xs leading-relaxed text-white/50 line-clamp-2 mb-3">
+          <p className="text-xs leading-relaxed text-white/70 line-clamp-2 mb-3">
             {article.summary}
           </p>
 
           <div
-            className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-white/40 group-hover:text-white/70 transition-colors mt-auto"
+            className="flex items-center gap-1 text-[10px] uppercase tracking-widest text-white/70 group-hover:text-[#b8916a] transition-colors mt-auto read-story-link-dark"
             style={{ fontFamily: "'IM Fell English', serif" }}
           >
             Read full story

@@ -14,12 +14,12 @@ interface FeedLayoutProps {
 const SECTION_LABEL: React.CSSProperties = {
   fontFamily: "'IM Fell English', serif",
   fontSize: "10px",
-  letterSpacing: "0.2em",
+  letterSpacing: "0.1em",
   textTransform: "uppercase",
-  color: "#6b5a3e",
+  color: "#3D2412",
   marginBottom: "0.85rem",
   paddingBottom: "0.5rem",
-  borderBottom: "1px solid rgba(26,18,8,0.18)",
+  borderBottom: "1px solid rgba(61,36,18,0.18)",
   display: "block",
 };
 
@@ -41,7 +41,7 @@ export function FeedLayout({ articles }: FeedLayoutProps) {
           style={{
             fontFamily: "'IM Fell English', serif",
             fontSize: "13px",
-            color: "#a8836a",
+            color: "rgba(61, 36, 18, 0.6)",
             fontStyle: "italic",
           }}
         >
@@ -57,7 +57,7 @@ export function FeedLayout({ articles }: FeedLayoutProps) {
   const rightCards = remainingStories.filter((_, i) => i % 2 === 1);
 
   return (
-    <div style={{ padding: "0 1.5rem 2rem" }}>
+    <div className="px-6 sm:px-0" style={{ paddingBottom: "2rem" }}>
       {/* Mobile Feed Layout */}
       <div
         className="flex flex-col gap-5 sm:hidden"
@@ -73,7 +73,7 @@ export function FeedLayout({ articles }: FeedLayoutProps) {
               {index > 0 && index % 3 === 0 && <DidYouKnowStrip />}
               <div
                 style={{
-                  borderTop: "1px solid rgba(26,18,8,0.15)",
+                  borderTop: "1px solid rgba(61,36,18,0.15)",
                   paddingTop: "1rem",
                 }}
               >
@@ -87,16 +87,17 @@ export function FeedLayout({ articles }: FeedLayoutProps) {
       {/* Desktop Editorial Layout Grid */}
       <div
         className="hidden sm:flex gap-0"
-        style={{ borderTop: "1px solid rgba(26,18,8,0.2)" }}
+        style={{ borderTop: "1px solid rgba(61,36,18,0.2)" }}
       >
         {/* Sidebar — More Stories */}
         <aside
           style={{
             width: "24%",
             flexShrink: 0,
-            padding: "1.25rem 1.25rem 1.25rem 1rem",
-            borderRight: "3px double rgba(26,18,8,0.25)",
-            backgroundColor: "#f5f0e8",
+            padding: "1.25rem 1.5rem 1.25rem 1.5rem",
+            borderRight: "3px double #3D2412",
+            backgroundColor: "#faf8f4",
+            zIndex: 10,
           }}
         >
           <span style={SECTION_LABEL}>More Stories</span>
@@ -109,12 +110,12 @@ export function FeedLayout({ articles }: FeedLayoutProps) {
 
         {/* Main Content */}
         <main
-          style={{ flex: 1, padding: "1.25rem 0 1.25rem 1.25rem", minWidth: 0 }}
+          style={{ flex: 1, padding: "1.25rem 1.5rem 1.25rem 1.25rem", minWidth: 0 }}
         >
           <span style={SECTION_LABEL}>Top Stories</span>
 
           <div
-            style={{ display: "flex", gap: "1.5rem", alignItems: "flex-start" }}
+            style={{ display: "flex", gap: "2rem", alignItems: "flex-start" }}
           >
             {/* Left Column (55%) */}
             <div
@@ -122,7 +123,7 @@ export function FeedLayout({ articles }: FeedLayoutProps) {
                 width: "55%",
                 display: "flex",
                 flexDirection: "column",
-                gap: "1.5rem",
+                gap: "2rem",
                 minWidth: 0,
               }}
             >
@@ -138,7 +139,7 @@ export function FeedLayout({ articles }: FeedLayoutProps) {
                       style={{
                         display: "flex",
                         flexDirection: "column",
-                        gap: "1.5rem",
+                        gap: "2rem",
                       }}
                     >
                       {showDyk && <DidYouKnowStrip />}
@@ -155,7 +156,7 @@ export function FeedLayout({ articles }: FeedLayoutProps) {
                 width: "45%",
                 display: "flex",
                 flexDirection: "column",
-                gap: "1.5rem",
+                gap: "2rem",
                 minWidth: 0,
               }}
             >
@@ -171,7 +172,7 @@ export function FeedLayout({ articles }: FeedLayoutProps) {
                       style={{
                         display: "flex",
                         flexDirection: "column",
-                        gap: "1.5rem",
+                        gap: "2rem",
                       }}
                     >
                       {showDyk && <DidYouKnowStrip />}

@@ -72,27 +72,26 @@ export function DidYouKnowStrip() {
   const hoverHandlers = isTouch
     ? {}
     : {
-        onMouseEnter: () => setPaused(true),
-        onMouseLeave: () => setPaused(false),
-      };
+      onMouseEnter: () => setPaused(true),
+      onMouseLeave: () => setPaused(false),
+    };
 
   const clickHandler = isTouch ? { onClick: () => setPaused((p) => !p) } : {};
 
   return (
     <div
       className="relative border border-black overflow-hidden flex flex-col group"
-      style={{ background: "#3b2a1a", minHeight: "200px" }}
+      style={{ background: "#3D2412", minHeight: "200px" }}
       {...hoverHandlers}
       {...clickHandler}
     >
       {/* top label bar */}
       <div
-        className="flex items-center justify-between px-4 py-2 border-b border-white/20 w-100"
+        className="flex items-center justify-between px-6 py-3 border-b border-white/20 w-100"
         style={{ fontFamily: "'IM Fell English', serif" }}
       >
         <span className="text-[10px] tracking-[0.2em] uppercase text-white/60">
-          Did You Know{" "}
-          {paused && <span className="ml-2 text-white/30">— paused</span>}
+          Did You Know
         </span>
         <div className="flex gap-1.5">
           {facts.slice(0, 8).map((_, i) => (
@@ -102,11 +101,10 @@ export function DidYouKnowStrip() {
                 e.stopPropagation();
                 setCurrent(i);
               }}
-              className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                i === current
-                  ? "bg-white/90 scale-125"
-                  : "bg-white/25 hover:bg-white/50"
-              }`}
+              className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${i === current
+                ? "bg-[#b8916a] scale-125"
+                : "bg-white/40 hover:bg-[#b8916a] hover:scale-120 cursor-pointer"
+                }`}
             />
           ))}
         </div>
@@ -123,11 +121,11 @@ export function DidYouKnowStrip() {
             transition: { duration: 0.35, ease: "easeOut" },
           }}
           exit={{ opacity: 0, y: -8, transition: { duration: 0.2 } }}
-          className="flex flex-col flex-1 px-6 justify-center items-center text-center"
+          className="flex flex-col flex-1 px-6 py-4 justify-center items-center text-center"
         >
-          {/* Default changed from text-white/90 to text-white/60 for a deeper grey baseline */}
+          {/* Default changed from text-white/60 to text-white/85 for a whiter baseline */}
           <h3
-            className="text-base font-bold leading-snug text-white/60 transition-colors duration-300 ease-in-out group-hover:text-white"
+            className="text-base font-bold leading-snug text-white/85 transition-colors duration-300 ease-in-out group-hover:text-white"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
             {fact}
