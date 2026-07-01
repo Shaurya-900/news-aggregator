@@ -96,7 +96,7 @@ export function FeedLayout({ articles }: FeedLayoutProps) {
             flexShrink: 0,
             padding: "1.25rem 1.5rem 1.25rem 1.5rem",
             borderRight: "3px double #3D2412",
-            backgroundColor: "#faf8f4",
+            backgroundColor: "#f5f0e8",
             zIndex: 10,
           }}
         >

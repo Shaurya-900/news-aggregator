@@ -121,7 +121,7 @@ export function GlassHeader({
             flex: 1,
           }}
         >
-          E-Cell Newsletter
+          E-Cell Gazette
         </h1>
 
         {/* Search */}
@@ -250,9 +250,8 @@ export function GlassHeader({
               borderRight: "1px solid #3D2412",
               background: "none",
             }}
-            className={`group cursor-pointer transition-colors duration-200 ${
-              activeCategory === section ? "text-[#b8916a]" : "text-[rgba(61,36,18,0.7)] hover:text-[#b8916a]"
-            }`}
+            className={`group cursor-pointer transition-colors duration-200 ${activeCategory === section ? "text-[#b8916a]" : "text-[rgba(61,36,18,0.7)] hover:text-[#b8916a]"
+              }`}
           >
             <span
               style={{
